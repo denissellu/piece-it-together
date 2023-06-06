@@ -34,7 +34,7 @@ h1 {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 #game-screen{
@@ -43,4 +43,15 @@ h1 {
 
 .absolute {
   position: absolute;
+}
+
+#create-new-game {
+  margin-top: 10px;
+}
+
+#user-sign-in {
+  margin-top: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
