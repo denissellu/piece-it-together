@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@ably-labs/spaces": "^0.0.5",
-    "ably": "^1.2.40"
+    "ably": "^1.2.40",
+    "nanoid": "^4.0.2",
+    "unique-names-generator": "^4.7.1"
   }
 }
