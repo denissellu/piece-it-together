@@ -84,7 +84,9 @@ function startGame () {
 
   const playersConnected = (player) => player.isConnected === true
 
-  puzzleImage.src = 'public/jigsaw-images/1.jpg'
+  // const randomCutePetNumber = Math.floor(Math.random() * 11) + 1
+
+  puzzleImage.src = 'public/jigsaw-images/7.jpg'
   puzzleImage.onload = () => {
     const updateGameChannel = mySpace.client.channels.get('updateGame')
 
