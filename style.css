@@ -15,6 +15,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
+  flex-direction: column;
 }
 
 h1 {
@@ -23,11 +24,13 @@ h1 {
 }
 
 #welcome-screen {
-
+  width: 1000px;
+  text-align: center;
 }
 
 #landing-image {
-  width: 1000px;
+  width: auto;
+  max-width: 80%;
 }
 
 .hide {
@@ -35,4 +38,9 @@ h1 {
 }
 
 #game-screen{
+  text-align: center;
+}
+
+.absolute {
+  position: absolute;
 }

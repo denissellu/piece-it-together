@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://flbulgarelli.github.io/headbreaker/js/headbreaker.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <title>Piece it Together</title>
   </head>
   <body>
@@ -11,20 +12,17 @@
       <img src="/images/landing-image.png" id="landing-image" alt="Piece it Together">
 
       <h1>Piece it Together</h1>
-      <button id="create-new-game" class="">Create new Game</button>
-
+      <button id="create-new-game" class="pure-button pure-button-primary">Create new Game</button>
     </div>
 
     <div id="game-screen" class="hide">
-      <div id="game-name">
-        <a href="/">New game</a>
-      </div>
       <div id="puzzle"></div>
-      <textarea class="form-control" id="json-export-area" rows="10"></textarea>
-      <button id="persistent-export" class="">Export</button>
-      <button id="persistent-import" class="">Import</button>
-    </div>
 
+      <span>Invite more players:</span>
+      <pre id="game-name"></pre>
+
+      <a href="/" class="pure-button pure-button-primary" >New game</a>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
