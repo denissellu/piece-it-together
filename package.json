@@ -18,8 +18,9 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "@ably-labs/spaces": "^0.0.5",
+    "@ably-labs/spaces": "^0.0.7",
     "ably": "^1.2.40",
+    "lodash.throttle": "^4.1.1",
     "nanoid": "^4.0.2",
     "unique-names-generator": "^4.7.1"
   }

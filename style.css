@@ -37,8 +37,9 @@ h1 {
   display: none !important;
 }
 
-#game-screen{
+#game-screen {
   text-align: center;
+  position: relative;
 }
 
 .absolute {
