@@ -1,5 +1,6 @@
 import './style.css'
 import Spaces from '@ably-labs/spaces'
+import throttle from 'lodash.throttle'
 import { nanoid } from 'nanoid'
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
 
@@ -35,7 +36,7 @@ const gameNameFromParam = urlParams.get('game-id')
 if (gameNameFromParam !== null) {
   gameName = gameNameFromParam
 
-  mySpace = spaces.get(gameName)
+  mySpace = await spaces.get(gameName, { cursors: { outboundBatchInterval: 200 } })
 
   document.getElementById('welcome-screen').setAttribute('class', 'hide')
   document.getElementById('user-sign-in').removeAttribute('class', 'hide')
@@ -54,7 +55,7 @@ function showCutePetSelection () {
 const cutePetsElements = document.querySelectorAll('.cute-pet')
 let cutePetId
 
-cutePetsElements.forEach(el => el.addEventListener('click', event => {
+cutePetsElements.forEach(el => el.addEventListener('click', async event => {
   cutePetId = event.target.getAttribute('data-cute-pet-id')
 
   gameName = uniqueNamesGenerator({
@@ -66,17 +67,17 @@ cutePetsElements.forEach(el => el.addEventListener('click', event => {
   const newUrl = new URL(window.location)
   newUrl.searchParams.set('game-id', gameName)
 
-  mySpace = spaces.get(gameName)
+  mySpace = await spaces.get(gameName, { cursors: { outboundBatchInterval: 200 } })
 
   window.history.pushState(null, '', newUrl.toString())
 
   showSignInScreen()
 }))
 
-function signInPlayerInToSpace () {
+async function signInPlayerInToSpace () {
   const username = document.querySelector('#user-sign-in .username').value
 
-  mySpace.enter({
+  await mySpace.enter({
     username
   })
 }
@@ -86,8 +87,8 @@ function showSignInScreen () {
   document.getElementById('user-sign-in').removeAttribute('class', 'hide')
 }
 
-document.getElementById('join-game').addEventListener('click', function () {
-  signInPlayerInToSpace()
+document.getElementById('join-game').addEventListener('click', async function () {
+  await signInPlayerInToSpace()
   startGame()
 })
 
@@ -181,7 +182,7 @@ function startGame () {
       }
     })
 
-    gameContainer.addEventListener('mouseenter', function () {
+    gameContainer.addEventListener('mouseenter', function (event) {
       const { top, left } = gameContainer.getBoundingClientRect()
 
       cursor.set({
@@ -190,23 +191,16 @@ function startGame () {
       })
     })
 
-    const cursorSendPerSecond = 35
-    let cursorWaitUntil = 0
+    gameContainer.addEventListener('mousemove', throttle(function (event) {
+      const { top, left } = gameContainer.getBoundingClientRect()
 
-    gameContainer.addEventListener('mousemove', function () {
-      if (Date.now() >= cursorWaitUntil) {
-        const { top, left } = gameContainer.getBoundingClientRect()
+      cursor.set({
+        position: { x: event.clientX - left, y: event.clientY - top },
+        data: { state: 'move' }
+      })
+    }, 30))
 
-        cursor.set({
-          position: { x: event.clientX - left, y: event.clientY - top },
-          data: { state: 'move' }
-        })
-
-        cursorWaitUntil = Date.now() + 1000 / cursorSendPerSecond
-      }
-    })
-
-    gameContainer.addEventListener('mouseleave', function () {
+    gameContainer.addEventListener('mouseleave', function (event) {
       const { top, left } = gameContainer.getBoundingClientRect()
 
       cursor.set({
@@ -295,7 +289,7 @@ function startGame () {
       let waitUntil1 = 0
 
       figures.forEach(it => {
-        it.group.on('dragmove', function () {
+        it.group.on('dragmove', function (event) {
           if (Date.now() >= waitUntil1) {
             const gameState = jigsaw.puzzle.export({ compact: true })
             updateGameChannel.publish('updateGameState', gameState)

@@ -37,8 +37,9 @@ h1 {
   display: none !important;
 }
 
-#game-screen{
+#game-screen {
   text-align: center;
+  position: relative;
 }
 
 .absolute {
@@ -89,7 +90,8 @@ h1 {
   vertical-align: middle;
   border-radius: 5px;
 
-  &:hover {
-    outline: 5px solid #ff7bad;
-  }
+}
+
+.cute-pet img:hover {
+  outline: 5px solid #ff7bad;
 }
