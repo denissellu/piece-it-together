@@ -21,12 +21,11 @@ const clientId = nanoid()
 
 // init and setup spaces
 const spaces = new Spaces({
-  key: 'awGFVA.GGryXw:IS_VqROlI1dRbD3mkM72hP8QPd4HiMAzzZTTAdtLVug',
+  key: 'hSA6lQ.MEZtyg:9485o7SPceb8pH-p3jYiYeTL2ZR9MFVfuzzF3lIfQX0',
   clientId
 })
 
 let mySpace
-
 
 // JOINING GAME
 // See if you were invited in to a game
@@ -47,16 +46,16 @@ document.getElementById('create-new-game').addEventListener('click', function ()
   showCutePetSelection()
 })
 
-function showCutePetSelection() {
+function showCutePetSelection () {
   document.getElementById('welcome-screen').setAttribute('class', 'hide')
   document.getElementById('choose-cute-pet').removeAttribute('class', 'hide')
 }
 
-const cutePetsElements = document.querySelectorAll('.cute-pet');
+const cutePetsElements = document.querySelectorAll('.cute-pet')
 let cutePetId
 
 cutePetsElements.forEach(el => el.addEventListener('click', event => {
-  cutePetId = event.target.getAttribute("data-cute-pet-id")
+  cutePetId = event.target.getAttribute('data-cute-pet-id')
 
   gameName = uniqueNamesGenerator({
     dictionaries: [adjectives, animals],
@@ -72,7 +71,7 @@ cutePetsElements.forEach(el => el.addEventListener('click', event => {
   window.history.pushState(null, '', newUrl.toString())
 
   showSignInScreen()
-}));
+}))
 
 function signInPlayerInToSpace () {
   const username = document.querySelector('#user-sign-in .username').value
@@ -106,7 +105,7 @@ function startGame () {
 
   const playersConnected = (player) => player.isConnected === true
 
-  cutePetId = gameName.split('-').pop();
+  cutePetId = gameName.split('-').pop()
 
   puzzleImage.src = 'jigsaw-images/' + cutePetId + '.jpg'
   puzzleImage.onload = () => {
