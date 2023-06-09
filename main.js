@@ -280,7 +280,7 @@ function startGame () {
 
     function setDragListenersOnPieces () {
       const figures = Object.values(jigsaw.figures)
-      const timesPerSecond1 = 14
+      const timesPerSecond1 = 20
       let waitUntil1 = 0
 
       figures.forEach(it => {
