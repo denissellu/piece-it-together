@@ -231,8 +231,8 @@ function startGame () {
     })
 
     jigsaw.autogenerate({
-      horizontalPiecesCount: 3,
-      verticalPiecesCount: 3
+      horizontalPiecesCount: 5,
+      verticalPiecesCount: 5
     })
 
     jigsaw.attachSolvedValidator()
