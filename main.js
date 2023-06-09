@@ -198,7 +198,7 @@ function startGame () {
         position: { x: event.clientX - left, y: event.clientY - top },
         data: { state: 'move' }
       })
-    }, 50))
+    }, 30))
 
     gameContainer.addEventListener('mouseleave', function (event) {
       const { top, left } = gameContainer.getBoundingClientRect()
