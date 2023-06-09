@@ -190,7 +190,7 @@ function startGame () {
       })
     })
 
-    const cursorSendPerSecond = 25
+    const cursorSendPerSecond = 35
     let cursorWaitUntil = 0
 
     gameContainer.addEventListener('mousemove', function () {
@@ -250,21 +250,18 @@ function startGame () {
     setDragListenersOnPieces()
 
     jigsaw.onConnect((_piece, figure, _target, targetFigure) => {
-      // paint borders on click
-      // of conecting and conected figures
+      console.log('CONNECTED!!!!')
       figure.shape.stroke('yellow')
       targetFigure.shape.stroke('yellow')
       jigsaw.redraw()
 
       setTimeout(() => {
-        // restore border colors
-        // later
         figure.shape.stroke('black')
         targetFigure.shape.stroke('black')
         jigsaw.redraw()
         const gameState = jigsaw.puzzle.export({ compact: true })
         updateGameChannel.publish('updateGameState', gameState)
-      }, 200)
+      }, 400)
     })
 
     updateGameChannel.subscribe('updateGameState', function (message) {
@@ -274,6 +271,21 @@ function startGame () {
       jigsaw.clear()
       jigsaw.renderPuzzle(headbreaker.Puzzle.import(jsonGameState))
       jigsaw.draw()
+
+      jigsaw.onConnect((_piece, figure, _target, targetFigure) => {
+        console.log('CONNECTED!!!!')
+        figure.shape.stroke('yellow')
+        targetFigure.shape.stroke('yellow')
+        jigsaw.redraw()
+
+        setTimeout(() => {
+          figure.shape.stroke('black')
+          targetFigure.shape.stroke('black')
+          jigsaw.redraw()
+          const gameState = jigsaw.puzzle.export({ compact: true })
+          updateGameChannel.publish('updateGameState', gameState)
+        }, 200)
+      })
       setDragListenersOnPieces()
     })
 
