@@ -55,3 +55,41 @@ h1 {
   flex-direction: column;
   align-items: center;
 }
+
+#choose-cute-pet {
+  text-align: center;
+}
+
+.cute-pet-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 1000px;
+}
+
+.cute-pet {
+  flex: 1;
+  flex-basis: 250px;
+  cursor: pointer;
+}
+
+
+.cute-pet {
+  flex: 1;
+  flex-basis: 200px;
+  cursor: pointer;
+
+}
+
+.cute-pet img {
+ object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 5px;
+
+  &:hover {
+    outline: 5px solid #ff7bad;
+  }
+}

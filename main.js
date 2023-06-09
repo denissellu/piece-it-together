@@ -16,13 +16,17 @@ const cursorSvg = (startColor = '#06B6D4', endColor = '#ffffff', id) => {
     </svg>`
 }
 
-// Set up random name for game
-let gameName = uniqueNamesGenerator({
-  dictionaries: [adjectives, animals],
-  separator: '-',
-  length: 2
-})
+let gameName
 const clientId = nanoid()
+
+// init and setup spaces
+const spaces = new Spaces({
+  key: 'awGFVA.GGryXw:IS_VqROlI1dRbD3mkM72hP8QPd4HiMAzzZTTAdtLVug',
+  clientId
+})
+
+let mySpace
+
 
 // JOINING GAME
 // See if you were invited in to a game
@@ -32,25 +36,43 @@ const gameNameFromParam = urlParams.get('game-id')
 if (gameNameFromParam !== null) {
   gameName = gameNameFromParam
 
-  showSignInScreen()
-}
+  mySpace = spaces.get(gameName)
 
-// init and setup spaces
-const spaces = new Spaces({
-  key: 'awGFVA.GGryXw:IS_VqROlI1dRbD3mkM72hP8QPd4HiMAzzZTTAdtLVug',
-  clientId
-})
-const mySpace = spaces.get(gameName)
+  document.getElementById('welcome-screen').setAttribute('class', 'hide')
+  document.getElementById('user-sign-in').removeAttribute('class', 'hide')
+}
 
 // NEW GAME CREATION
 document.getElementById('create-new-game').addEventListener('click', function () {
+  showCutePetSelection()
+})
+
+function showCutePetSelection() {
+  document.getElementById('welcome-screen').setAttribute('class', 'hide')
+  document.getElementById('choose-cute-pet').removeAttribute('class', 'hide')
+}
+
+const cutePetsElements = document.querySelectorAll('.cute-pet');
+let cutePetId
+
+cutePetsElements.forEach(el => el.addEventListener('click', event => {
+  cutePetId = event.target.getAttribute("data-cute-pet-id")
+
+  gameName = uniqueNamesGenerator({
+    dictionaries: [adjectives, animals],
+    separator: '-',
+    length: 2
+  }) + '-' + cutePetId
+
   const newUrl = new URL(window.location)
   newUrl.searchParams.set('game-id', gameName)
+
+  mySpace = spaces.get(gameName)
 
   window.history.pushState(null, '', newUrl.toString())
 
   showSignInScreen()
-})
+}));
 
 function signInPlayerInToSpace () {
   const username = document.querySelector('#user-sign-in .username').value
@@ -61,7 +83,7 @@ function signInPlayerInToSpace () {
 }
 
 function showSignInScreen () {
-  document.getElementById('welcome-screen').setAttribute('class', 'hide')
+  document.getElementById('choose-cute-pet').setAttribute('class', 'hide')
   document.getElementById('user-sign-in').removeAttribute('class', 'hide')
 }
 
@@ -84,9 +106,9 @@ function startGame () {
 
   const playersConnected = (player) => player.isConnected === true
 
-  // const randomCutePetNumber = Math.floor(Math.random() * 11) + 1
+  cutePetId = gameName.split('-').pop();
 
-  puzzleImage.src = 'public/jigsaw-images/7.jpg'
+  puzzleImage.src = 'jigsaw-images/' + cutePetId + '.jpg'
   puzzleImage.onload = () => {
     const updateGameChannel = mySpace.client.channels.get('updateGame')
 
@@ -210,8 +232,8 @@ function startGame () {
     })
 
     jigsaw.autogenerate({
-      horizontalPiecesCount: 4,
-      verticalPiecesCount: 4
+      horizontalPiecesCount: 3,
+      verticalPiecesCount: 3
     })
 
     jigsaw.attachSolvedValidator()
